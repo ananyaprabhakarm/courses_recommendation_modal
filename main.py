@@ -4,10 +4,16 @@ from sklearn.metrics.pairwise import cosine_similarity
 from fastapi import FastAPI
 import uvicorn
 from sklearn.metrics.pairwise import linear_kernel
+from fastapi.middleware.cors import CORSMiddleware
 
 df = pd.read_csv('DataSet.csv')
 
 app = FastAPI()
+
+# app.add_middleware(
+#    CORSMiddleware,
+   
+# )
 
 new_df = df.copy()
 
@@ -53,7 +59,7 @@ def recommend(user_preferences, new_df_2):
 async def read_recommendations(user_preferences: str):
     recommendations = recommend(user_preferences, new_df_2)
 
-    # formatted_recommendations = [{"course": course, "similarity_score": score} for course, score in recommendations]
+    formatted_recommendations = [{"course": course, "similarity_score": score} for course, score in recommendations]
 
     return {"user_preferences": user_preferences, "recommendations":recommendations}
 
